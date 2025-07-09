@@ -158,6 +158,10 @@ def generate():
     p.showPage()
     p.save()
     buffer.seek(0)
+    # Limpar dados da sessão após download
+    session.pop('resume_data', None)
+    session.pop('photo_path', None)
+    session.pop('signature_path', None)
     return send_file(buffer, as_attachment=True, download_name='curriculo.pdf', mimetype='application/pdf')
 
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 # Home page
 @app.route('/')
 def home():
-    return render_template('base.html')
+    return render_template('home.html')
 
 # Form page
 @app.route('/form', methods=['GET', 'POST'])

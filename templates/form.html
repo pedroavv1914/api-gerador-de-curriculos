@@ -1,94 +1,94 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="card shadow-lg p-4 w-100" style="max-width: 750px;">
-  <h2 class="mb-4 text-center">Create Your Resume</h2>
+  <h2 class="mb-4 text-center">Crie seu Currículo</h2>
   <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
     {% if error %}
   <div class="alert alert-danger" role="alert">
-    {{ error }}
+    {{ error|replace('Please fill in all required fields.','Por favor, preencha todos os campos obrigatórios.') }}
   </div>
 {% endif %}
     <h5 class="mb-3 text-primary">Personal Information</h5>
     <div class="row">
       <div class="col-md-6 mb-3">
-        <label for="name" class="form-label">Full Name</label>
-        <input type="text" class="form-control {% if missing and 'name' in missing %}is-invalid{% endif %}" id="name" name="name" required placeholder="e.g. Ana Silva"
+        <label for="name" class="form-label">Nome Completo</label>
+        <input type="text" class="form-control {% if missing and 'name' in missing %}is-invalid{% endif %}" id="name" name="name" required placeholder="ex: Ana Silva"
           title="Your full name" value="{{ data.name if data and data.name is defined else '' }}">
         {% if missing and 'name' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
       </div>
       <div class="col-md-6 mb-3">
-        <label for="contact" class="form-label">Contact Info</label>
+        <label for="contact" class="form-label">Contato</label>
         <input type="text" class="form-control {% if missing and 'contact' in missing %}is-invalid{% endif %}" id="contact" name="contact" required
-          placeholder="e.g. (11) 99999-9999, email@email.com" title="Phone and/or email" value="{{ data.contact if data and data.contact is defined else '' }}">
+          placeholder="ex: (11) 99999-9999, email@email.com" title="Telefone e/ou email" value="{{ data.contact if data and data.contact is defined else '' }}">
         {% if missing and 'contact' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
       </div>
     </div>
     <div class="mb-3">
-      <label for="summary" class="form-label">Professional Summary</label>
+      <label for="summary" class="form-label">Resumo Profissional</label>
       <textarea class="form-control {% if missing and 'summary' in missing %}is-invalid{% endif %}" id="summary" name="summary" rows="2"
-        placeholder="Brief summary about you">{{ data.summary if data and data.summary is defined else '' }}</textarea>
+        placeholder="Breve resumo sobre você">{{ data.summary if data and data.summary is defined else '' }}</textarea>
       {% if missing and 'summary' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
     </div>
     <div class="mb-3">
-      <label for="experience" class="form-label">Experience <span class="text-muted">(one per line)</span></label>
+      <label for="experience" class="form-label">Experiência <span class="text-muted">(uma por linha)</span></label>
       <textarea class="form-control {% if missing and 'experience' in missing %}is-invalid{% endif %}" id="experience" name="experience" rows="3"
-        placeholder="e.g. Software Developer at XYZ\nIntern at ABC">{{ data.experience if data and data.experience is defined else '' }}</textarea>
+        placeholder="ex: Desenvolvedor de Software na XYZ\nEstagiário na ABC">{{ data.experience if data and data.experience is defined else '' }}</textarea>
       {% if missing and 'experience' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
     </div>
     <div class="mb-3">
-      <label for="skills" class="form-label">Skills <span class="text-muted">(comma separated)</span></label>
+      <label for="skills" class="form-label">Habilidades <span class="text-muted">(separadas por vírgula)</span></label>
       <input type="text" class="form-control {% if missing and 'skills' in missing %}is-invalid{% endif %}" id="skills" name="skills"
-        placeholder="e.g. Python, JavaScript, SQL" value="{{ data.skills if data and data.skills is defined else '' }}">
+        placeholder="ex: Python, JavaScript, SQL" value="{{ data.skills if data and data.skills is defined else '' }}">
       {% if missing and 'skills' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
     </div>
     <div class="mb-3">
-      <label for="projects" class="form-label">Projects <span class="text-muted">(one per line)</span></label>
+      <label for="projects" class="form-label">Projetos <span class="text-muted">(um por linha)</span></label>
       <textarea class="form-control {% if missing and 'projects' in missing %}is-invalid{% endif %}" id="projects" name="projects" rows="2"
-        placeholder="e.g. Resume Generator Web App\nPersonal Portfolio Website">{{ data.projects if data and data.projects is defined else '' }}</textarea>
+        placeholder="ex: Gerador de Currículos Web\nPortfólio Pessoal">{{ data.projects if data and data.projects is defined else '' }}</textarea>
       {% if missing and 'projects' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
     </div>
     <div class="mb-3">
-      <label for="education" class="form-label">Education <span class="text-muted">(one per line)</span></label>
+      <label for="education" class="form-label">Formação <span class="text-muted">(uma por linha)</span></label>
       <textarea class="form-control {% if missing and 'education' in missing %}is-invalid{% endif %}" id="education" name="education" rows="2"
-        placeholder="e.g. BSc Computer Science - UFABC\nHigh School - Colégio X">{{ data.education if data and data.education is defined else '' }}</textarea>
+        placeholder="ex: Bacharelado em Ciência da Computação - UFABC\nEnsino Médio - Colégio X">{{ data.education if data and data.education is defined else '' }}</textarea>
       {% if missing and 'education' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
     </div>
     <hr>
-    <h5 class="mb-3 text-primary">Links & Media</h5>
+    <h5 class="mb-3 text-primary">Links & Mídia</h5>
     <div class="row">
       <div class="col-md-4 mb-3">
-        <label for="github" class="form-label">GitHub URL</label>
+        <label for="github" class="form-label">Link do GitHub</label>
         <input type="url" class="form-control" id="github" name="github" placeholder="https://github.com/usuario">
       </div>
       <div class="col-md-4 mb-3">
-        <label for="linkedin" class="form-label">LinkedIn URL</label>
+        <label for="linkedin" class="form-label">Link do LinkedIn</label>
         <input type="url" class="form-control" id="linkedin" name="linkedin"
           placeholder="https://linkedin.com/in/usuario">
       </div>
       <div class="col-md-4 mb-3">
-        <label for="portfolio" class="form-label">Portfolio URL</label>
+        <label for="portfolio" class="form-label">Link do Portfólio</label>
         <input type="url" class="form-control" id="portfolio" name="portfolio" placeholder="https://meusite.com">
       </div>
     </div>
     <div class="row">
       <div class="col-md-6 mb-3">
-        <label for="photo" class="form-label">Upload Photo</label>
+        <label for="photo" class="form-label">Foto</label>
         <input class="form-control" type="file" id="photo" name="photo" accept="image/*">
       </div>
       <div class="col-md-6 mb-3">
-        <label for="signature" class="form-label">Upload Signature</label>
+        <label for="signature" class="form-label">Assinatura</label>
         <input class="form-control" type="file" id="signature" name="signature" accept="image/*">
       </div>
     </div>
     <div class="mb-3">
-      <label for="layout" class="form-label">Choose Layout</label>
+      <label for="layout" class="form-label">Escolha o Layout</label>
       <select class="form-select" id="layout" name="layout" required>
         <option value="layout1">Layout 1</option>
         <option value="layout2">Layout 2</option>
       </select>
     </div>
     <div class="d-grid gap-2 mt-4">
-      <button type="submit" class="btn btn-success btn-lg">Generate Resume</button>
+      <a href="/preview" class="btn btn-success btn-lg">Visualizar</a>
     </div>
   </form>
 </div>

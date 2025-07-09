@@ -76,47 +76,47 @@
   </div>
   <div class="resume-section">
     {% if data.summary %}
-      <div class="resume-section-title">Professional Summary</div>
+      <div class="resume-section-title">Resumo Profissional</div>
       <div>{{ data.summary|replace('\n','<br>')|safe }}</div>
       <div class="resume-divider"></div>
-    {% endif %}
+    {% endif %} 
     {% if data.experience %}
-      <div class="resume-section-title">Experience</div>
+      <div class="resume-section-title">Experiência</div>
       <div>{{ data.experience|replace('\n','<br>')|safe }}</div>
       <div class="resume-divider"></div>
-    {% endif %}
+    {% endif %} 
     {% if data.skills %}
-      <div class="resume-section-title">Skills</div>
+      <div class="resume-section-title">Habilidades</div>
       <div>{{ data.skills }}</div>
       <div class="resume-divider"></div>
-    {% endif %}
+    {% endif %} 
     {% if data.projects %}
-      <div class="resume-section-title">Projects</div>
+      <div class="resume-section-title">Projetos</div>
       <div>{{ data.projects|replace('\n','<br>')|safe }}</div>
       <div class="resume-divider"></div>
-    {% endif %}
+    {% endif %} 
     {% if data.education %}
-      <div class="resume-section-title">Education</div>
+      <div class="resume-section-title">Formação</div>
       <div>{{ data.education|replace('\n','<br>')|safe }}</div>
       <div class="resume-divider"></div>
-    {% endif %}
+    {% endif %} 
     {% if data.github or data.linkedin or data.portfolio %}
       <div class="resume-section-title">Links</div>
       {% if data.github %}<div>GitHub: <a href="{{ data.github }}" target="_blank">{{ data.github }}</a></div>{% endif %}
       {% if data.linkedin %}<div>LinkedIn: <a href="{{ data.linkedin }}" target="_blank">{{ data.linkedin }}</a></div>{% endif %}
-      {% if data.portfolio %}<div>Portfolio: <a href="{{ data.portfolio }}" target="_blank">{{ data.portfolio }}</a></div>{% endif %}
+      {% if data.portfolio %}<div>Portfólio: <a href="{{ data.portfolio }}" target="_blank">{{ data.portfolio }}</a></div>{% endif %}
       <div class="resume-divider"></div>
-    {% endif %}
+    {% endif %} 
     {% if signature_path %}
-      <div class="resume-section-title">Signature</div>
-      <img src="/{{ signature_path }}" class="resume-signature" alt="Signature">
-    {% endif %}
+      <div class="resume-section-title">Assinatura</div>
+      <img src="/{{ signature_path }}" class="resume-signature" alt="Assinatura">
+    {% endif %} 
   </div>
   <form method="POST" action="/generate" class="p-4 pt-0">
-    <button type="submit" class="btn btn-success btn-lg w-100">Download Resume (PDF)</button>
+    <button type="submit" class="btn btn-success btn-lg w-100">Baixar Currículo (PDF)</button>
   </form>
   <div class="p-4 pt-0">
-    <a href="/form" class="btn btn-outline-secondary w-100">Edit</a>
+    <a href="/form" class="btn btn-outline-secondary w-100">Editar</a>
   </div>
 </div>
 {% endblock %}

@@ -29,7 +29,8 @@ def form():
                 file.save(filepath)
                 session[file_key+'_path'] = filepath
         return redirect(url_for('preview'))
-    return render_template('form.html', error=error)
+    data = session.get('resume_data')
+    return render_template('form.html', error=error, data=data)
 
 # Preview page
 @app.route('/preview')

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Preview Your Resume</h2>
+  <div class="card p-4 mb-3">
+    <div class="row">
+      <div class="col-md-2">
+        {% if photo_path %}
+          <img src="/{{ photo_path }}" class="img-thumbnail mb-2" alt="Photo">
+        {% endif %}
+        {% if signature_path %}
+          <img src="/{{ signature_path }}" class="img-thumbnail" alt="Signature">
+        {% endif %}
+      </div>
+      <div class="col-md-10">
+        <h3>{{ data.name }}</h3>
+        <p><b>Contact:</b> {{ data.contact }}</p>
+        <p><b>Summary:</b> {{ data.summary }}</p>
+        <p><b>Experience:</b><br> {{ data.experience|replace('\n','<br>')|safe }}</p>
+        <p><b>Skills:</b> {{ data.skills }}</p>
+        <p><b>Projects:</b><br> {{ data.projects|replace('\n','<br>')|safe }}</p>
+        <p><b>Education:</b><br> {{ data.education|replace('\n','<br>')|safe }}</p>
+        <p><b>GitHub:</b> <a href="{{ data.github }}" target="_blank">{{ data.github }}</a></p>
+        <p><b>LinkedIn:</b> <a href="{{ data.linkedin }}" target="_blank">{{ data.linkedin }}</a></p>
+        <p><b>Portfolio:</b> <a href="{{ data.portfolio }}" target="_blank">{{ data.portfolio }}</a></p>
+        <p><b>Layout:</b> {{ data.layout }}</p>
+      </div>
+    </div>
+  </div>
+  <form method="POST" action="/generate">
+    <button type="submit" class="btn btn-success">Download Resume</button>
+  </form>
+  <a href="/form" class="btn btn-secondary mt-2">Edit</a>
+</div>
+{% endblock %}

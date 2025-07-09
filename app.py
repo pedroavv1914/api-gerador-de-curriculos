@@ -60,113 +60,105 @@ def generate():
     p = canvas.Canvas(buffer, pagesize=A4)
     width, height = A4
 
-    # Cabeçalho colorido
-    header_height = 70
+    # Cabeçalho moderno
+    header_height = 120
     p.setFillColorRGB(0.18, 0.36, 0.65)  # Azul escuro
     p.rect(0, height - header_height, width, header_height, fill=1, stroke=0)
 
-    # Nome e contato no cabeçalho
+    # Nome grande
     p.setFillColorRGB(1, 1, 1)
-    p.setFont('Helvetica-Bold', 22)
-    p.drawString(40, height - 40, data.get('name', ''))
-    p.setFont('Helvetica', 12)
-    p.drawString(40, height - 60, data.get('contact', ''))
+    p.setFont('Helvetica-Bold', 28)
+    p.drawString(55, height - 55, data.get('name', ''))
+    # Contato
+    p.setFont('Helvetica', 14)
+    p.drawString(55, height - 80, data.get('contact', ''))
 
-    # Foto no cabeçalho
+    # Foto circular à direita
     if photo_path and os.path.exists(photo_path):
         try:
-            p.drawImage(photo_path, width - 90, height - header_height + 10, width=50, height=50, mask='auto')
+            p.saveState()
+            p.setFillColorRGB(1, 1, 1)
+            p.circle(width - 95, height - header_height//2 + 10, 45, fill=1, stroke=0)
+            p.clipPath(p.beginPath().circle(width - 95, height - header_height//2 + 10, 45), stroke=0)
+            p.drawImage(photo_path, width - 140, height - header_height + 15, width=90, height=90, mask='auto')
+            p.restoreState()
         except Exception:
             pass
 
-    y = height - header_height - 30
+    y = height - header_height - 20
 
-    # Linha separadora
-    p.setStrokeColorRGB(0.7, 0.7, 0.7)
-    p.setLineWidth(1)
-    p.line(40, y, width - 40, y)
-    y -= 20
+    # Função para divisória
+    def divider():
+        nonlocal y
+        p.setStrokeColorRGB(0.88, 0.91, 0.95)
+        p.setLineWidth(1.5)
+        p.line(55, y, width - 55, y)
+        y -= 18
 
-    # Função para seções
+    # Função para título de seção
     def section(title):
         nonlocal y
-        p.setFont('Helvetica-Bold', 14)
+        p.setFont('Helvetica-Bold', 16)
         p.setFillColorRGB(0.18, 0.36, 0.65)
-        p.drawString(40, y, title)
-        y -= 16
+        p.drawString(55, y, title)
+        y -= 22
         p.setFillColorRGB(0, 0, 0)
         p.setFont('Helvetica', 12)
 
-    # Professional Summary
+    # Seções
     if data.get('summary'):
-        section('Professional Summary')
+        section('Resumo Profissional')
         for line in data.get('summary', '').split('\n'):
-            p.drawString(50, y, line)
+            p.drawString(65, y, line)
             y -= 15
-        y -= 8
-
-    # Experience
+        divider()
     if data.get('experience'):
-        section('Experience')
+        section('Experiência')
         for line in data.get('experience', '').split('\n'):
-            p.drawString(50, y, line)
+            p.drawString(65, y, line)
             y -= 15
-        y -= 8
-
-    # Skills
+        divider()
     if data.get('skills'):
-        section('Skills')
-        p.drawString(50, y, data.get('skills', ''))
-        y -= 22
-
-    # Projects
+        section('Habilidades')
+        p.drawString(65, y, data.get('skills', ''))
+        y -= 18
+        divider()
     if data.get('projects'):
-        section('Projects')
+        section('Projetos')
         for line in data.get('projects', '').split('\n'):
-            p.drawString(50, y, line)
+            p.drawString(65, y, line)
             y -= 15
-        y -= 8
-
-    # Education
+        divider()
     if data.get('education'):
-        section('Education')
+        section('Formação')
         for line in data.get('education', '').split('\n'):
-            p.drawString(50, y, line)
+            p.drawString(65, y, line)
             y -= 15
-        y -= 8
-
-    # Links
+        divider()
     if data.get('github') or data.get('linkedin') or data.get('portfolio'):
         section('Links')
         if data.get('github'):
-            p.drawString(50, y, f"GitHub: {data.get('github')}")
+            p.drawString(65, y, f"GitHub: {data.get('github')}")
             y -= 15
         if data.get('linkedin'):
-            p.drawString(50, y, f"LinkedIn: {data.get('linkedin')}")
+            p.drawString(65, y, f"LinkedIn: {data.get('linkedin')}")
             y -= 15
         if data.get('portfolio'):
-            p.drawString(50, y, f"Portfolio: {data.get('portfolio')}")
+            p.drawString(65, y, f"Portfólio: {data.get('portfolio')}")
             y -= 15
-        y -= 8
+        divider()
 
-    # Linha separadora final
-    if y > 80:
-        p.setStrokeColorRGB(0.7, 0.7, 0.7)
-        p.setLineWidth(0.5)
-        p.line(40, y, width - 40, y)
-        y -= 20
-
-    # Assinatura
+    # Assinatura centralizada
     if signature_path and os.path.exists(signature_path):
         try:
-            p.drawImage(signature_path, 50, 60, width=100, height=40, mask='auto')
+            p.drawImage(signature_path, width//2 - 60, 55, width=120, height=40, mask='auto')
         except Exception:
             pass
 
     p.showPage()
     p.save()
     buffer.seek(0)
-    return send_file(buffer, as_attachment=True, download_name='resume.pdf', mimetype='application/pdf')
+    return send_file(buffer, as_attachment=True, download_name='curriculo.pdf', mimetype='application/pdf')
 
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)

@@ -53,88 +53,104 @@ def generate():
     buffer = BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
     width, height = A4
-    y = height - 50
 
-    # Name and Contact
-    p.setFont('Helvetica-Bold', 18)
-    p.drawString(50, y, data.get('name', ''))
-    y -= 24
+    # Cabeçalho colorido
+    header_height = 70
+    p.setFillColorRGB(0.18, 0.36, 0.65)  # Azul escuro
+    p.rect(0, height - header_height, width, header_height, fill=1, stroke=0)
+
+    # Nome e contato no cabeçalho
+    p.setFillColorRGB(1, 1, 1)
+    p.setFont('Helvetica-Bold', 22)
+    p.drawString(40, height - 40, data.get('name', ''))
     p.setFont('Helvetica', 12)
-    p.drawString(50, y, data.get('contact', ''))
-    y -= 24
+    p.drawString(40, height - 60, data.get('contact', ''))
 
-    # Photo
+    # Foto no cabeçalho
     if photo_path and os.path.exists(photo_path):
         try:
-            p.drawImage(photo_path, width - 120, height - 150, width=70, height=70, mask='auto')
+            p.drawImage(photo_path, width - 90, height - header_height + 10, width=50, height=50, mask='auto')
         except Exception:
             pass
 
-    # Summary
-    p.setFont('Helvetica-Bold', 14)
-    p.drawString(50, y, 'Professional Summary:')
-    y -= 18
-    p.setFont('Helvetica', 12)
-    for line in data.get('summary', '').split('\n'):
-        p.drawString(60, y, line)
+    y = height - header_height - 30
+
+    # Linha separadora
+    p.setStrokeColorRGB(0.7, 0.7, 0.7)
+    p.setLineWidth(1)
+    p.line(40, y, width - 40, y)
+    y -= 20
+
+    # Função para seções
+    def section(title):
+        nonlocal y
+        p.setFont('Helvetica-Bold', 14)
+        p.setFillColorRGB(0.18, 0.36, 0.65)
+        p.drawString(40, y, title)
         y -= 16
-    y -= 8
+        p.setFillColorRGB(0, 0, 0)
+        p.setFont('Helvetica', 12)
+
+    # Professional Summary
+    if data.get('summary'):
+        section('Professional Summary')
+        for line in data.get('summary', '').split('\n'):
+            p.drawString(50, y, line)
+            y -= 15
+        y -= 8
 
     # Experience
-    p.setFont('Helvetica-Bold', 14)
-    p.drawString(50, y, 'Experience:')
-    y -= 18
-    p.setFont('Helvetica', 12)
-    for line in data.get('experience', '').split('\n'):
-        p.drawString(60, y, line)
-        y -= 16
-    y -= 8
+    if data.get('experience'):
+        section('Experience')
+        for line in data.get('experience', '').split('\n'):
+            p.drawString(50, y, line)
+            y -= 15
+        y -= 8
 
     # Skills
-    p.setFont('Helvetica-Bold', 14)
-    p.drawString(50, y, 'Skills:')
-    y -= 18
-    p.setFont('Helvetica', 12)
-    p.drawString(60, y, data.get('skills', ''))
-    y -= 24
+    if data.get('skills'):
+        section('Skills')
+        p.drawString(50, y, data.get('skills', ''))
+        y -= 22
 
     # Projects
-    p.setFont('Helvetica-Bold', 14)
-    p.drawString(50, y, 'Projects:')
-    y -= 18
-    p.setFont('Helvetica', 12)
-    for line in data.get('projects', '').split('\n'):
-        p.drawString(60, y, line)
-        y -= 16
-    y -= 8
+    if data.get('projects'):
+        section('Projects')
+        for line in data.get('projects', '').split('\n'):
+            p.drawString(50, y, line)
+            y -= 15
+        y -= 8
 
     # Education
-    p.setFont('Helvetica-Bold', 14)
-    p.drawString(50, y, 'Education:')
-    y -= 18
-    p.setFont('Helvetica', 12)
-    for line in data.get('education', '').split('\n'):
-        p.drawString(60, y, line)
-        y -= 16
-    y -= 8
+    if data.get('education'):
+        section('Education')
+        for line in data.get('education', '').split('\n'):
+            p.drawString(50, y, line)
+            y -= 15
+        y -= 8
 
     # Links
-    p.setFont('Helvetica-Bold', 14)
-    p.drawString(50, y, 'Links:')
-    y -= 18
-    p.setFont('Helvetica', 12)
-    if data.get('github'):
-        p.drawString(60, y, f"GitHub: {data.get('github')}")
-        y -= 16
-    if data.get('linkedin'):
-        p.drawString(60, y, f"LinkedIn: {data.get('linkedin')}")
-        y -= 16
-    if data.get('portfolio'):
-        p.drawString(60, y, f"Portfolio: {data.get('portfolio')}")
-        y -= 16
-    y -= 8
+    if data.get('github') or data.get('linkedin') or data.get('portfolio'):
+        section('Links')
+        if data.get('github'):
+            p.drawString(50, y, f"GitHub: {data.get('github')}")
+            y -= 15
+        if data.get('linkedin'):
+            p.drawString(50, y, f"LinkedIn: {data.get('linkedin')}")
+            y -= 15
+        if data.get('portfolio'):
+            p.drawString(50, y, f"Portfolio: {data.get('portfolio')}")
+            y -= 15
+        y -= 8
 
-    # Signature
+    # Linha separadora final
+    if y > 80:
+        p.setStrokeColorRGB(0.7, 0.7, 0.7)
+        p.setLineWidth(0.5)
+        p.line(40, y, width - 40, y)
+        y -= 20
+
+    # Assinatura
     if signature_path and os.path.exists(signature_path):
         try:
             p.drawImage(signature_path, 50, 60, width=100, height=40, mask='auto')

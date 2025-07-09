@@ -13,17 +13,10 @@
   </div>
 </nav>
 <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 70vh;">
-    <div class="card shadow-lg p-5 w-100" style="max-width: 600px;">
-        <h1 class="mb-3 text-center">Welcome to the Automated Resume Generator</h1>
-        <p class="mb-4 text-center text-muted">Create a beautiful and professional resume in minutes. Fill out the form and download your PDF instantly!</p>
-        <div class="d-flex justify-content-center">
-            <a href="/form" class="btn btn-lg btn-primary px-4 py-2 shadow">Create Resume</a>
-        </div>
-    </div>
+    {% block content %}{% endblock %}
 </div>
 <footer class="bg-light text-center text-muted py-3 mt-5 border-top">
     <small>Made with <span style="color:#e25555">&#9829;</span> using Flask & Bootstrap</small>
 </footer>
-{% block content %}{% endblock %}
 </body>
 </html>

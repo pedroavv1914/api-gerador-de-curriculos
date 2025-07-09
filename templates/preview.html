@@ -1,35 +1,122 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mt-4">
-  <h2>Preview Your Resume</h2>
-  <div class="card p-4 mb-3">
-    <div class="row">
-      <div class="col-md-2">
-        {% if photo_path %}
-          <img src="/{{ photo_path }}" class="img-thumbnail mb-2" alt="Photo">
-        {% endif %}
-        {% if signature_path %}
-          <img src="/{{ signature_path }}" class="img-thumbnail" alt="Signature">
-        {% endif %}
-      </div>
-      <div class="col-md-10">
-        <h3>{{ data.name }}</h3>
-        <p><b>Contact:</b> {{ data.contact }}</p>
-        <p><b>Summary:</b> {{ data.summary }}</p>
-        <p><b>Experience:</b><br> {{ data.experience|replace('\n','<br>')|safe }}</p>
-        <p><b>Skills:</b> {{ data.skills }}</p>
-        <p><b>Projects:</b><br> {{ data.projects|replace('\n','<br>')|safe }}</p>
-        <p><b>Education:</b><br> {{ data.education|replace('\n','<br>')|safe }}</p>
-        <p><b>GitHub:</b> <a href="{{ data.github }}" target="_blank">{{ data.github }}</a></p>
-        <p><b>LinkedIn:</b> <a href="{{ data.linkedin }}" target="_blank">{{ data.linkedin }}</a></p>
-        <p><b>Portfolio:</b> <a href="{{ data.portfolio }}" target="_blank">{{ data.portfolio }}</a></p>
-        <p><b>Layout:</b> {{ data.layout }}</p>
-      </div>
+<style>
+  .resume-preview {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 0 24px #e0e7ef;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  .resume-header {
+    background: #2e5a9f;
+    color: #fff;
+    padding: 32px 40px 24px 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  .resume-header-photo {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    margin-left: auto;
+    background: #e0e7ff;
+  }
+  .resume-header-info {
+    flex: 1;
+  }
+  .resume-header-name {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  .resume-header-contact {
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  .resume-section {
+    padding: 0 40px 0 40px;
+    margin-bottom: 22px;
+  }
+  .resume-section-title {
+    color: #2e5a9f;
+    font-weight: bold;
+    font-size: 1.15rem;
+    margin-top: 28px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .resume-divider {
+    border-bottom: 1px solid #e0e7ef;
+    margin: 18px 0 14px 0;
+  }
+  .resume-signature {
+    width: 120px;
+    margin-top: 32px;
+  }
+  @media (max-width: 600px) {
+    .resume-header, .resume-section { padding: 18px !important; }
+    .resume-header-photo { width: 45px; height: 45px; }
+  }
+</style>
+<div class="resume-preview my-5">
+  <div class="resume-header">
+    <div class="resume-header-info">
+      <div class="resume-header-name">{{ data.name }}</div>
+      <div class="resume-header-contact">{{ data.contact }}</div>
     </div>
+    {% if photo_path %}
+      <img src="/{{ photo_path }}" class="resume-header-photo" alt="Photo">
+    {% endif %}
   </div>
-  <form method="POST" action="/generate">
-    <button type="submit" class="btn btn-success">Download Resume</button>
+  <div class="resume-section">
+    {% if data.summary %}
+      <div class="resume-section-title">Professional Summary</div>
+      <div>{{ data.summary|replace('\n','<br>')|safe }}</div>
+      <div class="resume-divider"></div>
+    {% endif %}
+    {% if data.experience %}
+      <div class="resume-section-title">Experience</div>
+      <div>{{ data.experience|replace('\n','<br>')|safe }}</div>
+      <div class="resume-divider"></div>
+    {% endif %}
+    {% if data.skills %}
+      <div class="resume-section-title">Skills</div>
+      <div>{{ data.skills }}</div>
+      <div class="resume-divider"></div>
+    {% endif %}
+    {% if data.projects %}
+      <div class="resume-section-title">Projects</div>
+      <div>{{ data.projects|replace('\n','<br>')|safe }}</div>
+      <div class="resume-divider"></div>
+    {% endif %}
+    {% if data.education %}
+      <div class="resume-section-title">Education</div>
+      <div>{{ data.education|replace('\n','<br>')|safe }}</div>
+      <div class="resume-divider"></div>
+    {% endif %}
+    {% if data.github or data.linkedin or data.portfolio %}
+      <div class="resume-section-title">Links</div>
+      {% if data.github %}<div>GitHub: <a href="{{ data.github }}" target="_blank">{{ data.github }}</a></div>{% endif %}
+      {% if data.linkedin %}<div>LinkedIn: <a href="{{ data.linkedin }}" target="_blank">{{ data.linkedin }}</a></div>{% endif %}
+      {% if data.portfolio %}<div>Portfolio: <a href="{{ data.portfolio }}" target="_blank">{{ data.portfolio }}</a></div>{% endif %}
+      <div class="resume-divider"></div>
+    {% endif %}
+    {% if signature_path %}
+      <div class="resume-section-title">Signature</div>
+      <img src="/{{ signature_path }}" class="resume-signature" alt="Signature">
+    {% endif %}
+  </div>
+  <form method="POST" action="/generate" class="p-4 pt-0">
+    <button type="submit" class="btn btn-success btn-lg w-100">Download Resume (PDF)</button>
   </form>
-  <a href="/form" class="btn btn-secondary mt-2">Edit</a>
+  <div class="p-4 pt-0">
+    <a href="/form" class="btn btn-outline-secondary w-100">Edit</a>
+  </div>
 </div>
 {% endblock %}

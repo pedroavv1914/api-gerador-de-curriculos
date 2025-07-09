@@ -3,42 +3,55 @@
 <div class="card shadow-lg p-4 w-100" style="max-width: 750px;">
   <h2 class="mb-4 text-center">Create Your Resume</h2>
   <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+    {% if error %}
+  <div class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+{% endif %}
     <h5 class="mb-3 text-primary">Personal Information</h5>
     <div class="row">
       <div class="col-md-6 mb-3">
         <label for="name" class="form-label">Full Name</label>
-        <input type="text" class="form-control" id="name" name="name" required placeholder="e.g. Ana Silva"
-          title="Your full name">
+        <input type="text" class="form-control {% if missing and 'name' in missing %}is-invalid{% endif %}" id="name" name="name" required placeholder="e.g. Ana Silva"
+          title="Your full name" value="{{ data.name if data and data.name is defined else '' }}">
+        {% if missing and 'name' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
       </div>
       <div class="col-md-6 mb-3">
         <label for="contact" class="form-label">Contact Info</label>
-        <input type="text" class="form-control" id="contact" name="contact" required
-          placeholder="e.g. (11) 99999-9999, email@email.com" title="Phone and/or email">
+        <input type="text" class="form-control {% if missing and 'contact' in missing %}is-invalid{% endif %}" id="contact" name="contact" required
+          placeholder="e.g. (11) 99999-9999, email@email.com" title="Phone and/or email" value="{{ data.contact if data and data.contact is defined else '' }}">
+        {% if missing and 'contact' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
       </div>
     </div>
     <div class="mb-3">
       <label for="summary" class="form-label">Professional Summary</label>
-      <textarea class="form-control" id="summary" name="summary" rows="2"
-        placeholder="Brief summary about you"></textarea>
+      <textarea class="form-control {% if missing and 'summary' in missing %}is-invalid{% endif %}" id="summary" name="summary" rows="2"
+        placeholder="Brief summary about you">{{ data.summary if data and data.summary is defined else '' }}</textarea>
+      {% if missing and 'summary' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
     </div>
     <div class="mb-3">
       <label for="experience" class="form-label">Experience <span class="text-muted">(one per line)</span></label>
-      <textarea class="form-control" id="experience" name="experience" rows="3"
-        placeholder="e.g. Software Developer at XYZ\nIntern at ABC"></textarea>
+      <textarea class="form-control {% if missing and 'experience' in missing %}is-invalid{% endif %}" id="experience" name="experience" rows="3"
+        placeholder="e.g. Software Developer at XYZ\nIntern at ABC">{{ data.experience if data and data.experience is defined else '' }}</textarea>
+      {% if missing and 'experience' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
     </div>
     <div class="mb-3">
       <label for="skills" class="form-label">Skills <span class="text-muted">(comma separated)</span></label>
-      <input type="text" class="form-control" id="skills" name="skills" placeholder="e.g. Python, Flask, SQL, Teamwork">
+      <input type="text" class="form-control {% if missing and 'skills' in missing %}is-invalid{% endif %}" id="skills" name="skills"
+        placeholder="e.g. Python, JavaScript, SQL" value="{{ data.skills if data and data.skills is defined else '' }}">
+      {% if missing and 'skills' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
     </div>
     <div class="mb-3">
       <label for="projects" class="form-label">Projects <span class="text-muted">(one per line)</span></label>
-      <textarea class="form-control" id="projects" name="projects" rows="2"
-        placeholder="e.g. Resume Generator Web App\nPersonal Portfolio Website"></textarea>
+      <textarea class="form-control {% if missing and 'projects' in missing %}is-invalid{% endif %}" id="projects" name="projects" rows="2"
+        placeholder="e.g. Resume Generator Web App\nPersonal Portfolio Website">{{ data.projects if data and data.projects is defined else '' }}</textarea>
+      {% if missing and 'projects' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
     </div>
     <div class="mb-3">
       <label for="education" class="form-label">Education <span class="text-muted">(one per line)</span></label>
-      <textarea class="form-control" id="education" name="education" rows="2"
-        placeholder="e.g. BSc Computer Science - UFABC\nHigh School - Colégio X"></textarea>
+      <textarea class="form-control {% if missing and 'education' in missing %}is-invalid{% endif %}" id="education" name="education" rows="2"
+        placeholder="e.g. BSc Computer Science - UFABC\nHigh School - Colégio X">{{ data.education if data and data.education is defined else '' }}</textarea>
+      {% if missing and 'education' in missing %}<div class="invalid-feedback">Required field</div>{% endif %}
     </div>
     <hr>
     <h5 class="mb-3 text-primary">Links & Media</h5>
